@@ -1,6 +1,6 @@
 {
   "name": "@heretek-ai/juicyads-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for the JuicyAds API v1",
   "type": "module",
   "license": "MIT",
