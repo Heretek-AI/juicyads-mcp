@@ -1,11 +1,11 @@
 {
-  "name": "juicyads-mcp",
+  "name": "@heretek-ai/juicyads-mcp",
   "version": "0.1.0",
   "description": "MCP server for the JuicyAds API v1",
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=24"
+    "node": ">=20"
   },
   "files": [
     "dist",
@@ -16,7 +16,18 @@
   "exports": {
     ".": "./dist/index.js"
   },
+  "bin": {
+    "juicyads-mcp": "./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Heretek-AI/juicyads-mcp.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.test.json",
     "start": "node dist/index.js",

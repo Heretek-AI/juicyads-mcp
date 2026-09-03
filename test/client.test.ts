@@ -115,7 +115,7 @@ describe("JuicyAdsClient URL building", () => {
     assert.ok(!call.url.includes("?"), "no query string");
     assert.equal(header(call, "authorization"), undefined);
     assert.equal(header(call, "accept"), "application/json");
-    assert.ok((header(call, "user-agent") ?? "").startsWith("juicyads-mcp/"));
+    assert.ok((header(call, "user-agent") ?? "").startsWith("@heretek-ai/juicyads-mcp/"));
   });
 
   it("returns the parsed JSON body verbatim", async () => {

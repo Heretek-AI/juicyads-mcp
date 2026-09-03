@@ -1,0 +1,42 @@
+# Publish @heretek-ai/juicyads-mcp to npm via trusted publishing (OIDC).
+#
+# This workflow is DORMANT until two things happen:
+#   1. The package is first published from a local CLI (npm publish), and
+#   2. On npmjs.com -> package -> Settings -> Trusted publishing, the GitHub
+#      Actions workflow named exactly `publish.yml` is added as the trusted
+#      publisher for org `Heretek-AI` / repo `juicyads-mcp` (allowed action:
+#      `npm publish`).
+#
+# Once configured, pushing a `v*` tag publishes that version with npm
+# provenance. No npm token/secret is used — the trusted publisher exchanges the
+# GitHub OIDC token (`id-token: write`) for a short-lived npm session.
+
+name: publish
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          registry-url: https://registry.npmjs.org
+          # Never cache release builds — npm docs require this for trusted publishing.
+          package-manager-cache: false
+      - run: npm ci
+      - run: npm test
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NPM_CONFIG_PROVENANCE: "true"

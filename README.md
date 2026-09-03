@@ -109,6 +109,46 @@ tools.ts` maps 7 tools onto the client and registers them on an
 `McpServer` (the `@modelcontextprotocol/server` v2 line); `src/index.ts` wires the
 token check, server, and stdio transport.
 
+## Publishing & releases
+
+The package is published to npm as **`@heretek-ai/juicyads-mcp`** (public, scoped
+under the `heretek-ai` organization). Anyone can run the server without cloning:
+
+```sh
+# register the MCP server from the npm package
+export JUICYADS_API_TOKEN=<your token>
+claude mcp add juicyads --env JUICYADS_API_TOKEN=$JUICYADS_API_TOKEN -- npx -y @heretek-ai/juicyads-mcp
+```
+
+### First publish (local CLI)
+
+The first version must be published from a local CLI (npm trusted-publishing config
+lives on the package's own settings page, which only exists after the package is on
+the registry):
+
+```sh
+npm login            # authenticate to the registry
+npm publish          # publishConfig.access: public is already set
+```
+
+### Subsequent releases (GitHub Actions, no npm token)
+
+After the first publish, activate the dormant `.github/workflows/publish.yml` by
+adding it as a **trusted publisher** on the npm package: npmjs.com →
+`@heretek-ai/juicyads-mcp` → Settings → Trusted publishing → GitHub Actions →
+org `Heretek-AI`, repo `juicyads-mcp`, workflow `publish.yml`, allowed action
+`npm publish`. Then releases are tag-driven:
+
+```sh
+npm version patch   # or minor / major — updates package.json + tags vX.Y.Z
+git push --tags
+```
+
+The workflow runs `npm publish` with the GitHub OIDC token (`id-token: write`), which
+generates npm **provenance** attestations automatically. Verify a published release
+with `npm audit signatures`. The workflow needs Node ≥ 22.14 / npm ≥ 11.5.1 on the
+runner (satisfied by the pinned Node 24) and GitHub-hosted runners.
+
 ## License
 
 MIT — see `LICENSE`.
