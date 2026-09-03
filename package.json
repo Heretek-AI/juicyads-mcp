@@ -28,6 +28,7 @@
   },
   "scripts": {
     "prepublishOnly": "npm run build",
+    "prepack": "node -e \"const fs=require('fs');const f='dist/index.js';if(fs.existsSync(f))fs.chmodSync(f,0o755)\"",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.test.json",
     "start": "node dist/index.js",
