@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "juicyads": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["dist/index.js"],
+      "env": {
+        "JUICYADS_API_TOKEN": "${JUICYADS_API_TOKEN}"
+      }
+    }
+  }
+}
